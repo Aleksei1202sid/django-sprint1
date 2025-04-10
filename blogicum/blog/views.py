@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import render
 
 posts = [
@@ -45,15 +46,20 @@ posts = [
 
 
 def index(request):
-    template = 'blog/index.html'
-    context = {'posts': posts[::-1]}
-    return render(request, template, context)
+    return render(
+        request, 'blog/index.html',
+        context={'posts': reversed(posts)}
+    )
 
 
-def post_detail(request, id):
-    template = 'blog/detail.html'
-    context = {'post': posts[id]}
-    return render(request, template, context)
+def post_detail(request, post_id):
+    try:
+        return render(
+            request, 'blog/detail.html',
+            context={'post': posts[post_id]}
+        )
+    except IndexError:
+        raise Http404('Страница не существует.')
 
 
 def category_posts(request, category_slug):
