@@ -45,6 +45,11 @@ posts = [
 ]
 
 
+dict_posts = {}
+for post in posts:
+    dict_posts[post['id']] = post
+
+
 def index(request):
     return render(
         request, 'blog/index.html',
