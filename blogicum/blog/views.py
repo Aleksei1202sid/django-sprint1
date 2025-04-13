@@ -45,9 +45,9 @@ posts = [
 ]
 
 
-dict_posts = {}
+posts_by_id = {}
 for post in posts:
-    dict_posts[post['id']] = post
+    posts_by_id[post['id']] = post
 
 
 def index(request):
@@ -61,10 +61,10 @@ def post_detail(request, post_id):
     try:
         return render(
             request, 'blog/detail.html',
-            context={'post': posts[post_id]}
+            context={'post': posts_by_id[post_id]}
         )
-    except IndexError:
-        raise Http404('Страница не существует.')
+    except KeyError:
+        raise Http404('Страница не существует!')
 
 
 def category_posts(request, category_slug):
